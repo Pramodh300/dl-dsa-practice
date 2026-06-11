@@ -1,0 +1,351 @@
+1. Introduction to Neural Networks
+
+A Neural Network is a machine learning model inspired by the structure and working of the human brain.
+
+The human brain contains billions of neurons that receive information, process it, and produce outputs.
+
+Similarly, an Artificial Neural Network (ANN) consists of artificial neurons that process input data and make predictions.
+
+Basic Flow
+Input Data
+     ↓
+Neural Network
+     ↓
+Prediction
+
+Examples:
+
+Image Classification
+Face Recognition
+Speech Recognition
+ChatGPT
+Recommendation Systems
+2. Why Neural Networks?
+
+Traditional Machine Learning algorithms work well for structured data but struggle with highly complex data such as:
+
+Images
+Audio
+Videos
+Natural Language
+
+Neural Networks can automatically learn complex patterns from large datasets.
+
+Traditional ML
+Data
+ ↓
+Manual Feature Engineering
+ ↓
+Model
+ ↓
+Prediction
+Neural Networks
+Data
+ ↓
+Neural Network
+ ↓
+Automatic Feature Learning
+ ↓
+Prediction
+3. What is a Neuron?
+
+A neuron is the basic building block of a Neural Network.
+
+It receives inputs, performs calculations, and produces an output.
+
+Example
+
+Suppose we want to predict whether a student will pass an exam.
+
+Inputs:
+
+Study Hours
+Attendance
+Assignment Completion
+
+Neuron:
+
+Inputs
+   ↓
+Neuron
+   ↓
+Output
+
+Output:
+
+Pass
+or
+Fail
+4. Components of a Neuron
+
+A neuron contains:
+
+Inputs (x)
+
+These are the features provided to the model.
+
+Example:
+
+x₁ = Study Hours
+x₂ = Attendance
+x₃ = Assignment Score
+Weights (w)
+
+Weights determine the importance of each feature.
+
+Example:
+
+Study Hours → High Importance
+Attendance → Medium Importance
+
+Possible weights:
+
+w₁ = 0.8
+w₂ = 0.3
+w₃ = 0.5
+
+Larger weight means the feature has more influence on the prediction.
+
+Bias (b)
+
+Bias shifts the decision boundary of the neuron.
+
+It helps the neuron make flexible decisions even when input values are small or zero.
+
+Think of bias as:
+
+A fine-tuning parameter
+5. Mathematical Representation of a Neuron
+
+A neuron calculates:
+
+z=w
+1
+	​
+
+x
+1
+	​
+
++w
+2
+	​
+
+x
+2
+	​
+
++w
+3
+	​
+
+x
+3
+	​
+
++b
+
+Where:
+
+x = Inputs
+w = Weights
+b = Bias
+z = Weighted Sum
+
+This weighted sum is then passed through an activation function.
+
+6. Example Calculation
+
+Suppose:
+
+Study Hours = 8
+Attendance = 90
+
+Weights:
+
+w₁ = 0.8
+w₂ = 0.2
+
+Bias:
+
+b = 1
+
+Calculation:
+
+z = (8 × 0.8) + (90 × 0.2) + 1
+
+z = 6.4 + 18 + 1
+
+z = 25.4
+
+This value is then used to make a prediction.
+
+7. What are Weights?
+
+Weights represent the importance of input features.
+
+Example
+
+For exam prediction:
+
+Study Hours = Important
+Weight = 0.9
+
+Favorite Color = Not Important
+Weight = 0.01
+
+The neural network learns these weights during training.
+
+Key Point
+
+Neural Networks learn by adjusting weights.
+
+8. What is Bias?
+
+Bias helps the model adjust its predictions.
+
+Without bias:
+
+Output = Weight × Input
+
+With bias:
+
+Output = Weight × Input + Bias
+
+Bias helps shift the prediction threshold.
+
+Example
+
+Passing Marks:
+
+Pass if Score > 40
+
+The value "40" behaves similarly to a bias.
+
+9. Neural Network Architecture
+
+A Neural Network consists of layers.
+
+Three Main Layers
+Input Layer
+Hidden Layer
+Output Layer
+10. Input Layer
+
+The Input Layer receives data.
+
+Example:
+
+Titanic Dataset
+
+Age
+Fare
+Passenger Class
+Gender
+
+Each feature enters through an input neuron.
+
+11. Hidden Layer
+
+The Hidden Layer performs computations and learns patterns.
+
+Example:
+
+The network may learn:
+
+Women survived more often
+
+or
+
+First-class passengers survived more often
+
+These patterns are learned automatically.
+
+12. Output Layer
+
+The Output Layer produces the final prediction.
+
+Example:
+
+Titanic Survival Prediction
+
+0 → Did Not Survive
+1 → Survived
+13. Single-Layer Neural Network
+
+Structure:
+
+Input
+  ↓
+Output
+
+Simple problems can be solved using a single layer.
+
+14. Multi-Layer Neural Network
+
+Structure:
+
+Input Layer
+      ↓
+Hidden Layer
+      ↓
+Output Layer
+
+Hidden layers help the model learn complex relationships.
+
+15. Deep Learning
+
+When multiple hidden layers are added, the network becomes a Deep Neural Network.
+
+Example:
+
+Input
+ ↓
+Hidden Layer
+ ↓
+Hidden Layer
+ ↓
+Hidden Layer
+ ↓
+Output
+
+This is called Deep Learning.
+
+16. Neural Networks vs Traditional ML
+Traditional ML	Neural Networks
+Manual Features	Automatic Feature Learning
+Works on Small Data	Excels on Large Data
+Easier to Interpret	More Complex
+Faster Training	Slower Training
+Simpler Models	Complex Models
+17. Real-World Applications
+Computer Vision
+Face Recognition
+Object Detection
+Medical Imaging
+Natural Language Processing
+ChatGPT
+Machine Translation
+Text Summarization
+Recommendation Systems
+Netflix
+YouTube
+Amazon
+Autonomous Vehicles
+Tesla
+Self-driving Cars
+18. How Neural Networks Learn
+
+During training:
+
+Input Data
+     ↓
+Prediction
+     ↓
+Calculate Error
+     ↓
+Adjust Weights and Biases
+     ↓
+Improve Prediction
+
+This process repeats many times until the model achieves good performance.
