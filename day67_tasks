@@ -1,0 +1,464 @@
+Part 1: What Happens During Training?
+
+Imagine you have a dataset of 10,000 images of cats and dogs.
+
+The neural network cannot magically understand the data all at once. It follows a repetitive cycle:
+
+Training Data
+      ↓
+Take some samples
+      ↓
+Forward Propagation
+      ↓
+Calculate Loss
+      ↓
+Backpropagation
+      ↓
+Update Weights
+      ↓
+Repeat until all data is seen
+      ↓
+Start over if needed
+
+This repeated process introduces the concepts of batch size and epochs.
+
+Part 2: What is an Epoch?
+Definition
+
+An epoch is one complete pass through the entire training dataset.
+
+Suppose you have:
+
+Total training samples = 1000
+
+If the model processes all 1000 samples once, then:
+
+1 Epoch = The model has seen every training example exactly once.
+
+Example
+
+Dataset:
+
+Image1, Image2, Image3, ..., Image1000
+
+After the model has trained on all 1000 images:
+
+Epoch 1 completed ✅
+
+It may then start over:
+
+Epoch 2 → sees all 1000 images again.
+Epoch 3 → sees all 1000 images again.
+Why Multiple Epochs?
+
+Think about studying for an exam.
+
+Suppose you read a textbook only once.
+
+You understand some concepts.
+You forget others.
+
+If you revise the same book multiple times:
+
+Your understanding improves.
+You make fewer mistakes.
+
+A neural network behaves similarly.
+
+Epoch	Model Understanding
+1	Knows almost nothing
+5	Learns basic patterns
+20	Learns deeper relationships
+100	May even start memorizing the data
+
+This last point leads to an important concept:
+
+Too Few Epochs → Underfitting
+
+The model hasn't learned enough.
+
+Too Many Epochs → Overfitting
+
+The model memorizes the training data instead of learning general patterns.
+
+Part 3: What is Batch Size?
+Definition
+
+A batch is a small group of training examples processed together before updating the weights.
+
+Instead of feeding all 1000 examples at once, we split them into smaller chunks.
+
+Suppose:
+
+Dataset size = 1000 samples.
+Batch size = 100.
+
+Then the model processes:
+
+Batch 1 → Samples 1-100
+Update weights
+
+Batch 2 → Samples 101-200
+Update weights
+
+...
+
+Batch 10 → Samples 901-1000
+Update weights
+
+After all 10 batches are processed:
+
+1 Epoch is complete.
+Part 4: Relationship Between Epochs, Batch Size, and Iterations
+
+This is one of the most frequently asked interview concepts.
+
+Formula:
+Iterations per Epoch=
+Batch Size
+Training Samples
+	​
+
+
+For example:
+
+Training samples = 10,000
+Batch size = 100
+100
+10000
+	​
+
+=100
+
+So:
+
+100 iterations = 1 epoch.
+
+If we train for 20 epochs:
+
+20×100=2000 total iterations
+Terminology
+Epoch: One complete pass through the data.
+Batch: Small subset of data.
+Iteration: One weight update after processing one batch.
+Visual Representation
+Dataset (1000 samples)
+│
+├── Batch 1 (100 samples) → Update #1
+├── Batch 2 (100 samples) → Update #2
+├── Batch 3 (100 samples) → Update #3
+├── ...
+└── Batch 10 (100 samples) → Update #10
+
+= 1 Epoch
+Part 5: Why Don't We Use the Entire Dataset at Once?
+
+You might ask:
+
+"Why not use all 10,000 samples together?"
+
+Problem 1: Memory Limitation
+
+Large datasets cannot fit into GPU memory.
+
+Modern datasets:
+
+ImageNet → 1.2 million images.
+LLM datasets → billions of tokens.
+
+Processing everything together would require enormous hardware.
+
+Problem 2: Slow Updates
+
+If we wait for the whole dataset before updating the weights, learning becomes slow.
+
+Mini-batches allow the model to update itself frequently.
+
+Part 6: Types of Training Based on Batch Size
+1. Batch Gradient Descent
+Batch size = Entire dataset.
+One update after processing all samples.
+1000 samples
+      ↓
+Compute loss
+      ↓
+Update weights once
+Advantages
+Stable updates.
+Smooth convergence.
+Disadvantages
+Slow.
+Requires lots of memory.
+2. Stochastic Gradient Descent (SGD)
+Batch size = 1.
+Sample 1 → Update
+Sample 2 → Update
+Sample 3 → Update
+...
+Advantages
+Very fast updates.
+Escapes local minima more easily.
+Disadvantages
+Noisy learning.
+Loss fluctuates heavily.
+3. Mini-Batch Gradient Descent ⭐ (Industry Standard)
+
+Typical batch sizes:
+
+16, 32, 64, 128, 256
+
+This balances:
+
+Speed,
+Memory usage,
+Stability.
+
+Almost every modern deep learning model uses mini-batch training.
+
+Part 7: What is Learning Rate?
+Definition
+
+The learning rate determines how much the model changes its weights after each update.
+
+You already learned yesterday that backpropagation computes gradients. The learning rate controls how strongly we react to those gradients.
+
+Think of it as the step size during learning.
+
+Mountain Analogy
+
+Imagine climbing down a mountain in dense fog to reach the lowest valley.
+
+Case 1: Tiny Steps
+Step size = very small
+Safe.
+Stable.
+But it takes forever to reach the bottom.
+Case 2: Huge Steps
+Step size = very large
+You may jump over the valley.
+You may bounce back and forth.
+You might never settle.
+Case 3: Balanced Steps
+Step size = moderate
+Progress is steady.
+Reaches the minimum efficiently.
+
+The learning rate is exactly this step size.
+
+Part 8: Effect of Different Learning Rates
+Learning Rate Too Small
+learning_rate = 0.00001
+
+Characteristics:
+
+Training is extremely slow.
+Needs many epochs.
+May take hours or days to converge.
+
+Graph intuition:
+
+Loss
+│\
+│ \
+│  \
+│   \
+│    \________
+└──────────────→ Epochs
+
+Very gradual decrease.
+
+Learning Rate Too Large
+learning_rate = 1.0
+
+Characteristics:
+
+Overshoots the minimum.
+Loss oscillates wildly.
+Training may become unstable.
+Loss
+│ \/\/\/\/\
+│/\/\/\/\/\
+└────────────→ Epochs
+Good Learning Rate
+
+Typical starting values:
+
+0.1
+0.01
+0.001
+
+The optimal value depends on:
+
+Model architecture.
+Dataset.
+Optimizer.
+
+For many deep learning tasks, 0.001 with Adam optimizer is a common default.
+
+Part 9: Interaction Between Batch Size and Learning Rate
+
+These two are closely related.
+
+Batch Size	Typical Behavior
+Small (16-32)	Noisier gradients, often generalizes better
+Medium (64-128)	Balanced
+Large (512+)	Stable gradients, but may require larger learning rates
+Intuition
+
+A larger batch gives a more accurate estimate of the "true direction" for weight updates.
+
+A smaller batch is like asking only a few people for advice—it is noisier but often surprisingly effective.
+
+Part 10: Hyperparameters vs Parameters
+
+This distinction is very important for interviews.
+
+Parameters
+
+These are learned automatically:
+
+Weights.
+Biases.
+
+Example:
+
+W = 0.45
+b = -1.23
+
+The neural network discovers these values during training.
+
+Hyperparameters
+
+These are chosen before training starts.
+
+Examples:
+
+Learning rate.
+Batch size.
+Number of epochs.
+Number of hidden layers.
+Number of neurons per layer.
+
+You, the engineer, decide these values.
+
+Interview Definition
+
+Parameters are learned from data; hyperparameters are set by the engineer before training.
+
+Part 11: Practical Example
+
+Suppose you have:
+
+Dataset Size = 5000 samples
+Batch Size = 100
+Epochs = 10
+Learning Rate = 0.01
+Step 1: Calculate Iterations per Epoch
+100
+5000
+	​
+
+=50
+
+So:
+
+50 iterations = 1 epoch.
+Step 2: Total Updates
+10×50=500
+
+The network updates its weights 500 times during the entire training process.
+
+Part 12: Python Demonstration
+
+Let's simulate how batches are formed.
+
+# Dummy dataset
+data = list(range(1, 21))   # 20 samples
+
+batch_size = 5
+
+for i in range(0, len(data), batch_size):
+    batch = data[i:i + batch_size]
+    print("Current Batch:", batch)
+Output
+Current Batch: [1, 2, 3, 4, 5]
+Current Batch: [6, 7, 8, 9, 10]
+Current Batch: [11, 12, 13, 14, 15]
+Current Batch: [16, 17, 18, 19, 20]
+
+Each printed list represents one mini-batch.
+
+Part 13: Simulating Epochs
+data = list(range(1, 11))
+epochs = 3
+
+for epoch in range(epochs):
+    print(f"\nEpoch {epoch+1}")
+    
+    for sample in data:
+        print(f"Processing sample {sample}")
+
+The same dataset is processed multiple times—exactly what epochs mean.
+
+Part 14: How PyTorch Uses These Concepts
+
+When you train a model in PyTorch:
+
+from torch.utils.data import DataLoader
+
+train_loader = DataLoader(
+    dataset=train_dataset,
+    batch_size=32,
+    shuffle=True
+)
+
+epochs = 10
+
+for epoch in range(epochs):
+    for batch in train_loader:
+        # Forward pass
+        # Compute loss
+        # Backward pass
+        # Update weights
+        pass
+
+Here:
+
+batch_size=32 → each iteration uses 32 samples.
+epochs=10 → entire dataset repeated 10 times.
+The optimizer internally uses the chosen learning rate.
+Part 15: Real Industry Values
+Application	Batch Size	Learning Rate	Epochs
+Small ML dataset	16–64	0.01	20–100
+CNN image classification	32–256	0.001	10–50
+NLP Transformer fine-tuning	8–32	2e-5 to 5e-5	2–5
+Large Language Model pretraining	Thousands (distributed)	Dynamically scheduled	Millions of iterations
+
+Notice that engineers don't simply increase epochs forever—they monitor validation loss and stop when performance stops improving.
+
+Part 16: Common Interview Questions
+Q1. What is an epoch?
+
+Answer: One complete pass through the entire training dataset.
+
+Q2. What is batch size?
+
+Answer: The number of training samples processed before one weight update.
+
+Q3. What is an iteration?
+
+Answer: One update of the model parameters after processing one batch.
+
+Q4. Formula for iterations per epoch?
+Iterations=
+Batch Size
+Dataset Size
+	​
+
+Q5. What happens if the learning rate is too high?
+Training becomes unstable.
+The model may overshoot the optimal solution.
+Loss may oscillate or diverge.
+Q6. Difference between parameters and hyperparameters?
+Parameters → learned automatically.
+Hyperparameters → chosen before training.
