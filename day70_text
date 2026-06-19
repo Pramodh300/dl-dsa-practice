@@ -1,0 +1,409 @@
+Part 1: chmod (File Permissions)
+Why do permissions exist?
+
+Imagine a server used by multiple users.
+
+User A
+User B
+User C
+
+If everyone could modify everything:
+
+delete models
+modify code
+steal data
+
+Chaos.
+
+Linux solves this using permissions.
+
+Understanding Permissions
+
+Run:
+
+ls -l
+
+Example:
+
+-rwxr-xr-- 1 user user 1024 model.py
+
+Let's decode:
+
+-rwxr-xr--
+
+First character:
+
+- = file
+d = directory
+
+Remaining characters:
+
+rwx | r-x | r--
+
+Meaning:
+
+Owner  Group  Others
+Permission Symbols
+Read
+r = 4
+
+Can view file contents.
+
+Example:
+
+cat model.py
+Write
+w = 2
+
+Can modify file.
+
+Execute
+x = 1
+
+Can run file.
+
+Example:
+
+./train.sh
+Numeric Permissions
+
+Add values:
+
+rwx = 4+2+1 = 7
+rw- = 4+2+0 = 6
+r-x = 4+0+1 = 5
+r-- = 4+0+0 = 4
+chmod Examples
+Give full access
+chmod 777 file.py
+Owner   = rwx
+Group   = rwx
+Others  = rwx
+
+Rarely recommended.
+
+Typical Script Permission
+chmod 755 train.sh
+
+Meaning:
+
+Owner  = rwx
+Group  = r-x
+Others = r-x
+Private File
+chmod 600 secrets.txt
+
+Meaning:
+
+Owner = rw-
+Others = no access
+
+Very common for API keys.
+
+AI Engineer Example
+
+Suppose:
+
+train_model.py
+
+Needs execution permission:
+
+chmod +x train_model.py
+
+Run:
+
+./train_model.py
+Part 2: Environment Variables
+
+One of the most important Linux concepts.
+
+What is an Environment Variable?
+
+A variable stored by the operating system.
+
+Example:
+
+API_KEY
+DATABASE_URL
+MODEL_PATH
+
+Instead of:
+
+API_KEY = "my-secret-key"
+
+inside code (bad practice),
+
+store it in environment variables.
+
+View Variables
+env
+
+or
+
+printenv
+Create Variable
+export NAME="Pramodh"
+
+Check:
+
+echo $NAME
+
+Output:
+
+Pramodh
+Access in Python
+import os
+
+name = os.getenv("NAME")
+
+print(name)
+
+Output:
+
+Pramodh
+Real AI Example
+export OPENAI_API_KEY="abc123"
+
+Python:
+
+import os
+
+key = os.getenv("OPENAI_API_KEY")
+
+print(key)
+
+This is how professionals handle secrets.
+
+Part 3: SSH
+
+SSH = Secure Shell
+
+Allows connecting to another Linux machine remotely.
+
+Why AI Engineers Use SSH
+
+Imagine:
+
+Laptop:
+8GB RAM
+
+Training takes forever.
+
+Cloud server:
+
+64GB RAM
+NVIDIA GPU
+
+Need to connect remotely.
+
+SSH does this.
+
+SSH Command
+ssh username@ip_address
+
+Example:
+
+ssh ubuntu@192.168.1.10
+What Happens?
+Your Laptop
+      |
+      |
+      v
+Remote Linux Server
+
+You get terminal access to the server.
+
+Typical AI Workflow
+ssh ubuntu@server-ip
+
+Then:
+
+cd project
+source venv/bin/activate
+python train.py
+Generate SSH Key
+ssh-keygen
+
+Creates:
+
+id_rsa
+id_rsa.pub
+
+Public key:
+
+id_rsa.pub
+
+goes to server.
+
+Private key:
+
+id_rsa
+
+stays with you.
+
+Part 4: screen
+
+Imagine:
+
+python train.py
+
+Training takes:
+
+8 hours
+
+You close laptop.
+
+Training dies.
+
+😢
+
+Solution: screen
+
+Install:
+
+sudo apt install screen
+Start Session
+screen
+
+Run training:
+
+python train.py
+
+Detach:
+
+Ctrl+A
+D
+
+Session continues running.
+
+List Sessions
+screen -ls
+Reattach
+screen -r
+
+Training resumes.
+
+Why AI Engineers Love screen
+
+Training:
+
+10 hours
+20 hours
+2 days
+
+You don't want it stopping because your internet disconnected.
+
+Part 5: tmux
+
+Modern alternative to screen.
+
+Many companies prefer tmux.
+
+Install
+sudo apt install tmux
+Start
+tmux
+Detach
+Ctrl+B
+D
+Reattach
+tmux attach
+Why tmux is Powerful
+
+Multiple terminal windows:
+
+Window 1 -> Training
+Window 2 -> Monitoring GPU
+Window 3 -> Logs
+
+All inside one SSH session.
+
+Part 6: Python Virtual Environments
+
+One of the most important skills for AI engineers.
+
+Problem
+
+Project A:
+
+TensorFlow 2.10
+
+Project B:
+
+TensorFlow 2.15
+
+Same machine.
+
+Conflict.
+
+Solution
+
+Virtual Environments.
+
+Each project gets its own Python environment.
+
+Create Environment
+python -m venv venv
+
+Creates:
+
+venv/
+Activate
+
+Linux:
+
+source venv/bin/activate
+
+Prompt changes:
+
+(venv) $
+Install Packages
+pip install numpy
+pip install pandas
+pip install scikit-learn
+
+Packages stay inside that environment.
+
+Check Installed Packages
+pip list
+Save Requirements
+pip freeze > requirements.txt
+
+Example:
+
+numpy==2.0.0
+pandas==2.3.1
+scikit-learn==1.7.0
+Install From Requirements
+pip install -r requirements.txt
+
+This is how teams share projects.
+
+Real AI Engineer Workflow
+
+Create project:
+
+mkdir HousePricePrediction
+cd HousePricePrediction
+
+Create environment:
+
+python -m venv venv
+
+Activate:
+
+source venv/bin/activate
+
+Install libraries:
+
+pip install numpy pandas scikit-learn matplotlib
+
+Train model:
+
+python train.py
+
+Save dependencies:
+
+pip freeze > requirements.txt
+
+Push to GitHub.

@@ -1,0 +1,450 @@
+What is Linux?
+
+Linux is an operating system kernel created by Linus Torvalds in 1991.
+
+Popular Linux distributions (distros):
+
+Ubuntu
+Debian
+Fedora
+CentOS
+Arch Linux
+
+For AI/ML work, Ubuntu is the industry standard.
+
+Understanding the Linux File System
+
+Unlike Windows, Linux does not use C:\, D:\, etc.
+
+Everything starts from the root directory (/).
+
+/
+├── home
+│   └── pramodh
+│       ├── Documents
+│       ├── AI_Project
+│       └── Downloads
+├── etc
+├── var
+├── usr
+└── bin
+
+Important directories:
+
+Directory	Purpose
+/	Root directory
+/home	User home folders
+/bin	Essential system commands
+/etc	Configuration files
+/usr	Installed software
+/var	Logs and variable data
+/tmp	Temporary files
+1. pwd — Print Working Directory
+Purpose
+
+Shows your current location in the file system.
+
+Command
+pwd
+Example Output
+/home/pramodh/AI_Project
+Explanation
+
+Suppose you open a terminal. The computer needs to know:
+
+Which folder are you currently inside?
+Where should new files be created?
+From where should commands run?
+
+pwd answers those questions.
+
+Analogy
+
+Imagine you are inside a huge shopping mall. pwd is like checking the "You Are Here" map.
+
+2. ls — List Files and Folders
+Purpose
+
+Displays the contents of the current directory.
+
+Basic Command
+ls
+
+Example:
+
+AI_Project
+Downloads
+Documents
+notes.txt
+Useful Variants
+ls -l
+
+Shows detailed information.
+
+ls -l
+
+Output:
+
+drwxr-xr-x 2 user user 4096 Jun 16 AI_Project
+-rw-r--r-- 1 user user  512 Jun 16 notes.txt
+
+Meaning:
+
+Symbol	Meaning
+d	Directory
+-	Regular file
+r	Read permission
+w	Write permission
+x	Execute permission
+ls -a
+
+Shows hidden files.
+
+ls -a
+
+Example:
+
+.
+..
+.git
+.env
+README.md
+
+Files beginning with . are hidden in Linux.
+
+ls -la
+
+Most commonly used combination:
+
+ls -la
+
+Shows hidden files plus detailed information.
+
+3. cd — Change Directory
+Purpose
+
+Move from one folder to another.
+
+Move into a folder
+cd AI_Project
+Go back one level
+cd ..
+
+Example:
+
+Current: /home/pramodh/AI_Project
+cd ..
+Now:     /home/pramodh
+Go to home directory
+cd ~
+
+or simply:
+
+cd
+Move using absolute path
+cd /home/pramodh/Documents
+Move using relative path
+
+If you are already inside /home/pramodh:
+
+cd Documents
+Absolute vs Relative Paths
+Absolute Path
+
+Starts from root (/).
+
+/home/pramodh/AI_Project/project1.py
+
+It works regardless of your current location.
+
+Relative Path
+
+Depends on where you currently are.
+
+If you are inside:
+
+/home/pramodh
+
+then:
+
+cd AI_Project
+
+works because it is relative to your current directory.
+
+4. mkdir — Make Directory
+Purpose
+
+Create a new folder.
+
+Basic Usage
+mkdir AI_Projects
+
+Creates:
+
+AI_Projects/
+Create Multiple Folders
+mkdir project1 project2 project3
+
+Creates all three folders at once.
+
+Create Nested Folders
+mkdir -p AI/DeepLearning/Projects
+
+Result:
+
+AI
+└── DeepLearning
+    └── Projects
+
+The -p flag automatically creates missing parent directories.
+
+5. rm — Remove Files and Folders
+
+⚠️ Warning: Linux usually does not have a recycle bin for terminal commands. Deleted files are often permanently removed.
+
+Delete a File
+rm notes.txt
+
+Deletes notes.txt.
+
+Delete Multiple Files
+rm file1.txt file2.txt
+Delete an Empty Folder
+rmdir empty_folder
+Delete a Folder and Everything Inside
+rm -r AI_Project
+
+-r means recursive.
+
+Force Delete
+rm -rf AI_Project
+
+Meaning:
+
+-r → recursively.
+-f → force delete without confirmation.
+
+⚠️ Be very careful with:
+
+rm -rf /
+
+This attempts to delete the entire Linux file system.
+
+6. cp — Copy Files and Directories
+Copy a File
+cp notes.txt backup.txt
+
+Creates a copy:
+
+notes.txt
+backup.txt
+Copy a File into Another Folder
+cp notes.txt Documents/
+Copy a Directory
+cp -r AI_Project AI_Backup
+
+-r is required because directories contain nested files.
+
+7. mv — Move or Rename Files
+Rename a File
+mv old_name.txt new_name.txt
+Move a File
+mv notes.txt Documents/
+
+Moves the file into the Documents folder.
+
+Rename a Folder
+mv AI_Project AI_ML_Project
+
+Linux uses the same command for moving and renaming.
+
+8. cat — Display File Contents
+View a File
+
+Suppose notes.txt contains:
+
+Linux Basics
+Python
+Machine Learning
+
+Run:
+
+cat notes.txt
+
+Output:
+
+Linux Basics
+Python
+Machine Learning
+Create a File Quickly
+cat > hello.txt
+
+Type:
+
+Hello AI World!
+
+Press:
+
+Ctrl + D (Linux/macOS)
+to save.
+Combine Files
+cat file1.txt file2.txt
+
+Displays the contents of both files.
+
+9. grep — Search Inside Files
+
+grep is one of the most powerful Linux commands.
+
+Purpose
+
+Search for text patterns.
+
+Suppose students.txt contains:
+
+Alice
+Bob
+Pramodh
+Charlie
+
+Search for "Pramodh":
+
+grep "Pramodh" students.txt
+
+Output:
+
+Pramodh
+Case-Insensitive Search
+grep -i "python" notes.txt
+
+Matches:
+
+Python
+PYTHON
+python
+Search Recursively in All Files
+grep -r "import numpy" .
+
+Searches every file in the current directory and subdirectories for "import numpy".
+
+AI engineers often use this to search through codebases.
+
+10. find — Locate Files and Folders
+Search by Name
+find . -name "notes.txt"
+
+. means start searching from the current directory.
+
+Example output:
+
+./Documents/notes.txt
+Find Python Files
+find . -name "*.py"
+
+Output:
+
+./project1/main.py
+./project2/model.py
+./utils/helper.py
+Find Directories
+find . -type d
+Find Files Larger Than 100 MB
+find . -size +100M
+
+Very useful when cleaning up large AI datasets.
+
+Essential Linux Shortcuts
+Shortcut	Action
+Tab	Auto-complete command/file names
+↑	Previous command
+↓	Next command
+Ctrl + C	Stop running process
+Ctrl + L	Clear terminal screen
+clear	Also clears screen
+history	Show command history
+A Typical AI Engineer Workflow
+
+Suppose you receive a machine learning project.
+
+Step 1: Check current location
+pwd
+Step 2: View files
+ls
+Step 3: Create project folder
+mkdir HousePricePrediction
+Step 4: Enter the folder
+cd HousePricePrediction
+Step 5: Create subfolders
+mkdir data models notebooks
+Step 6: Create a notes file
+cat > README.txt
+
+Type your notes and save.
+
+Step 7: Search for Python files later
+find . -name "*.py"
+Step 8: Search for a keyword in your code
+grep -r "LinearRegression" .
+
+This is very close to what you will do daily in real AI jobs.
+
+Mini Practice Lab (Do This Yourself)
+
+Open a Linux terminal (or WSL, Git Bash, or an Ubuntu VM) and perform these tasks:
+
+Task 1
+mkdir AI_Learning
+cd AI_Learning
+pwd
+Task 2
+
+Create three folders:
+
+datasets
+models
+notebooks
+
+using one command.
+
+Task 3
+
+Create a file named notes.txt and add:
+
+Today I learned Linux basics.
+
+Then display its contents.
+
+Task 4
+
+Copy notes.txt to backup.txt.
+
+Task 5
+
+Rename backup.txt to linux_notes.txt.
+
+Task 6
+
+Find every .txt file inside the current directory.
+
+Task 7
+
+Search for the word "Linux" inside notes.txt.
+
+Common Interview Questions
+Q1. What is the difference between cp and mv?
+cp creates a copy and keeps the original.
+mv moves or renames the original.
+Q2. What is the difference between an absolute path and a relative path?
+Absolute path: Starts from / (root directory).
+Relative path: Starts from your current working directory.
+Q3. Why is rm -rf considered dangerous?
+
+Because it recursively and forcefully deletes files and directories without asking for confirmation.
+
+Q4. What does grep do?
+
+grep searches for a specified pattern or text inside one or more files.
+
+Q5. Why should AI engineers learn Linux?
+
+Because AI training, deployment, cloud servers, Docker containers, and most production ML infrastructure run on Linux systems.
