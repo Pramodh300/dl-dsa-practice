@@ -1,0 +1,307 @@
+1. Loss Function
+Definition
+
+A Loss Function is a mathematical function that measures the difference (error) between the model's predicted output and the actual (ground truth) output.
+
+It tells the neural network how wrong its prediction is.
+
+The objective of training is to minimize the loss.
+
+Why is Loss Function Needed?
+
+Without a loss function, the model cannot know:
+
+Whether its prediction is correct or wrong.
+How large the prediction error is.
+How to improve its weights.
+
+The optimizer uses the loss value to update the model's weights.
+
+Workflow
+Input Data
+      ↓
+Neural Network
+      ↓
+Prediction
+      ↓
+Loss Function
+      ↓
+Calculate Error
+      ↓
+Optimizer Updates Weights
+      ↓
+Improved Prediction
+2. Mean Squared Error (MSE)
+Definition
+
+Mean Squared Error (MSE) is the most common loss function for Regression Problems.
+
+It calculates the average of the squared differences between actual values and predicted values.
+
+Formula
+MSE=
+N
+1
+	​
+
+∑(y−
+y
+^
+	​
+
+)
+2
+
+Where:
+
+y = Actual value
+ŷ = Predicted value
+N = Number of samples
+Why Square the Error?
+
+Squaring the error:
+
+Removes negative values.
+Penalizes larger errors more heavily.
+Makes optimization easier because the function is smooth and differentiable.
+Applications
+
+Used in:
+
+House Price Prediction
+Salary Prediction
+Temperature Prediction
+Stock Price Prediction
+PyTorch
+criterion = nn.MSELoss()
+loss = criterion(predictions, targets)
+3. Cross Entropy Loss
+Definition
+
+Cross Entropy Loss is the standard loss function used for Classification Problems.
+
+It measures how different the predicted probability distribution is from the true class.
+
+Applications
+
+Used in:
+
+Cat vs Dog Classification
+Spam Detection
+Digit Recognition (MNIST)
+Disease Classification
+Image Classification
+Important Note
+
+When using
+
+nn.CrossEntropyLoss()
+
+Do NOT apply Softmax manually.
+
+CrossEntropyLoss() internally applies LogSoftmax before calculating the loss.
+
+PyTorch
+criterion = nn.CrossEntropyLoss()
+
+outputs = model(images)
+
+loss = criterion(outputs, labels)
+4. Gradient Descent
+Definition
+
+Gradient Descent is an optimization algorithm used to minimize the loss function by updating the model's weights.
+
+The goal is to find the weights that produce the smallest possible loss.
+
+Formula
+New Weight=Old Weight−Learning Rate×Gradient
+Working
+Forward Pass
+      ↓
+Calculate Loss
+      ↓
+Backpropagation
+      ↓
+Compute Gradients
+      ↓
+Update Weights
+      ↓
+Repeat
+5. Optimizer
+Definition
+
+An Optimizer is an algorithm that updates the neural network's weights using the calculated gradients.
+
+Its purpose is to minimize the loss function.
+
+Without an optimizer, the model cannot learn.
+
+Popular Optimizers
+SGD
+Adam
+RMSprop
+AdamW
+Adagrad
+6. Stochastic Gradient Descent (SGD)
+Definition
+
+SGD updates the model parameters using gradients calculated during backpropagation.
+
+PyTorch
+optimizer = torch.optim.SGD(
+    model.parameters(),
+    lr=0.01
+)
+Advantages
+Simple algorithm
+Low memory usage
+Easy to understand
+Widely used
+Disadvantages
+Slow convergence
+Can oscillate around the minimum
+Sensitive to learning rate
+7. Adam Optimizer
+Definition
+
+Adam (Adaptive Moment Estimation) is an advanced optimization algorithm that automatically adapts the learning rate for each parameter using gradient statistics.
+
+It combines the advantages of Momentum and RMSProp.
+
+PyTorch
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=0.001
+)
+Advantages
+Faster convergence
+Stable training
+Less hyperparameter tuning
+Works well for most deep learning tasks
+Disadvantages
+Uses more memory than SGD
+Sometimes generalizes slightly worse than SGD on certain vision tasks
+8. SGD vs Adam
+Feature	SGD	Adam
+Speed	Slower	Faster
+Adaptive Learning Rate	No	Yes
+Memory Usage	Low	Higher
+Training Stability	Moderate	High
+Beginner Friendly	Moderate	Excellent
+9. Learning Rate
+Definition
+
+The Learning Rate (lr) determines the size of each weight update during training.
+
+It controls how quickly or slowly the model learns.
+
+Effects
+Very Small Learning Rate
+Slow learning
+Longer training time
+Stable updates
+Very Large Learning Rate
+Overshoots the minimum
+Training becomes unstable
+Loss may increase
+Optimal Learning Rate
+Faster convergence
+Stable learning
+Better final accuracy
+Example
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=0.001
+)
+10. Learning Rate Scheduler
+Definition
+
+A Learning Rate Scheduler automatically changes the learning rate during training.
+
+Usually, it gradually decreases the learning rate after certain epochs.
+
+Why Use It?
+
+Large learning rates help during early training.
+
+Small learning rates help fine-tune the model near the optimum.
+
+This often results in:
+
+Better convergence
+Lower loss
+Improved accuracy
+Example
+scheduler = StepLR(
+    optimizer,
+    step_size=10,
+    gamma=0.1
+)
+
+Every 10 epochs,
+
+Old LR × 0.1
+
+becomes the new learning rate.
+
+11. Complete Training Workflow
+Dataset
+      ↓
+DataLoader
+      ↓
+Neural Network
+      ↓
+Forward Pass
+      ↓
+Loss Function
+      ↓
+Backward Pass
+      ↓
+Optimizer
+      ↓
+Weight Update
+      ↓
+Repeat Until Training Completes
+12. PyTorch Training Steps
+outputs = model(inputs)
+
+loss = criterion(outputs, labels)
+
+optimizer.zero_grad()
+
+loss.backward()
+
+optimizer.step()
+Explanation
+
+outputs = model(inputs)
+
+Performs the forward pass.
+
+loss = criterion(outputs, labels)
+
+Computes the prediction error.
+
+optimizer.zero_grad()
+
+Clears gradients from the previous iteration.
+
+loss.backward()
+
+Calculates gradients using backpropagation.
+
+optimizer.step()
+
+Updates the model parameters.
+
+13. Key Interview Points
+Loss Function measures prediction error.
+MSE is used for Regression.
+Cross Entropy is used for Classification.
+Gradient Descent minimizes the loss.
+Optimizer updates model weights.
+SGD is simple but slower.
+Adam is adaptive and usually converges faster.
+Learning Rate controls update size.
+Learning Rate Scheduler automatically adjusts the learning rate during training.
