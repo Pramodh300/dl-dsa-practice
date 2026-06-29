@@ -1,0 +1,153 @@
+Day 78 – Convolutional Neural Networks (CNN)
+
+Topics: Computer Vision, Convolution, Filters, Feature Maps, Pooling
+
+1. Computer Vision
+
+Computer Vision is a branch of Artificial Intelligence that enables computers to understand, analyze, and make decisions from images and videos. Unlike humans, computers cannot directly recognize objects. They first convert images into numerical data (pixels) and then use deep learning models such as CNNs to extract meaningful patterns. Computer Vision is widely used in face recognition, self-driving cars, medical image analysis, object detection, OCR, and surveillance systems.
+
+Example: Face Unlock on a smartphone identifies your face using Computer Vision.
+
+2. Image Representation
+
+A computer stores an image as a matrix of numbers called pixels. Each pixel represents the intensity of light at a particular location. A grayscale image contains only one channel with pixel values ranging from 0 (black) to 255 (white). A color image consists of three channels: Red, Green, and Blue (RGB). Therefore, an RGB image is represented as Height × Width × 3.
+
+Example: A 224 × 224 RGB image has a shape of 224 × 224 × 3, where the last dimension represents the three color channels.
+
+3. Why Normal Neural Networks Fail for Images
+
+A Fully Connected Neural Network connects every input neuron to every neuron in the next layer. Images contain a very large number of pixels. For example, a 224 × 224 × 3 image has 150,528 input values. Connecting all these inputs to even a small hidden layer creates millions of trainable parameters, making the model slow, memory-intensive, and prone to overfitting. It also ignores the spatial relationship between nearby pixels.
+
+Example: If the first hidden layer has 1000 neurons, it requires more than 150 million weights.
+
+4. Why CNN Was Invented
+
+CNN was developed to efficiently process images by learning local patterns instead of analyzing the entire image at once. Instead of connecting every pixel to every neuron, CNN scans the image using small filters, reducing the number of parameters while preserving important visual information. This makes CNN faster, more accurate, and better suited for image-related tasks.
+
+Example: Instead of looking at an entire face at once, CNN first learns edges, then eyes, nose, mouth, and finally recognizes the complete face.
+
+5. Filter (Kernel)
+
+A Filter, also called a Kernel, is a small matrix (usually 3 × 3 or 5 × 5) that slides over the image during convolution. Each filter is trained to detect a specific visual pattern such as edges, corners, textures, or curves. During training, the filter values are automatically learned through backpropagation.
+
+Example: One filter may detect vertical edges, while another detects horizontal edges.
+
+6. Convolution
+
+Convolution is the process of sliding a filter across an image and performing mathematical operations to detect important features. The filter examines one small region at a time, extracts useful information, and moves across the entire image. This allows CNN to identify patterns while using far fewer parameters than a fully connected network.
+
+Example: Imagine reading a book line by line instead of trying to read the whole page at once. CNN processes images in a similar way.
+
+7. Feature Map
+
+A Feature Map is the output produced after applying a filter to an image. It shows where a particular feature has been detected. Every filter produces one feature map. If a convolution layer contains 64 filters, it generates 64 feature maps. Feature maps are then passed to the next layers so the network can learn more complex features.
+
+Example: If a filter detects vertical edges, its feature map contains higher values at locations where vertical edges exist and lower values elsewhere.
+
+8. Stride
+
+Stride is the number of pixels the filter moves after each convolution step. A stride of 1 moves the filter one pixel at a time, while a stride of 2 skips one pixel between movements. Increasing the stride reduces the size of the output feature map and decreases computation, but it may also lose some image details.
+
+Example: A stride of 2 makes the output smaller and the model faster than a stride of 1.
+
+9. Padding
+
+Padding means adding zeros around the border of an image before convolution. Without padding, the feature map becomes smaller after every convolution. Padding helps preserve image size and allows filters to analyze border pixels effectively.
+
+Example: Using padding = 1 with a 3 × 3 filter keeps the output size almost the same as the input.
+
+10. ReLU Activation Function
+
+ReLU (Rectified Linear Unit) is an activation function applied after convolution. It replaces all negative values with zero while keeping positive values unchanged. ReLU introduces non-linearity into the network, allowing CNNs to learn complex patterns and train faster.
+
+Formula:
+
+ReLU(x) = max(0, x)
+
+Example: If the input is [-4, 2, -1, 7], the output becomes [0, 2, 0, 7].
+
+11. Pooling
+
+Pooling is a downsampling operation that reduces the size of the feature map while preserving the most important information. It decreases computation, reduces memory usage, and helps prevent overfitting. Pooling also makes CNN more robust to small changes in object position.
+
+Example: Compressing a high-resolution image before sending it over the internet reduces size while keeping the important content.
+
+12. Max Pooling
+
+Max Pooling selects the largest value from a small region (commonly 2 × 2). It keeps the strongest feature detected by the filter and removes weaker responses. Max Pooling is the most commonly used pooling technique in modern CNNs.
+
+Example:
+
+Input
+
+2 4
+7 8
+
+Output
+
+8
+
+The maximum value (8) is selected because it represents the strongest activation.
+
+13. Average Pooling
+
+Average Pooling calculates the average value of all elements within a small region. Unlike Max Pooling, it keeps the overall information instead of only the strongest feature. Although it is less commonly used today, it is still applied in some deep learning architectures.
+
+Example:
+
+Input
+
+2 4
+6 8
+
+Output
+
+5
+14. Flatten Layer
+
+The Flatten layer converts the multi-dimensional feature maps into a one-dimensional vector. This vector becomes the input to the Fully Connected layer, which performs the final classification.
+
+Example:
+
+Feature Map
+
+4 × 4 × 64
+
+↓
+
+Flatten
+
+↓
+
+1024 values
+15. Fully Connected Layer
+
+The Fully Connected Layer receives the flattened features and performs the final prediction. It combines all learned features and produces the probability of each class using an activation function such as Softmax.
+
+Example: If the model is trained to classify animals, the Fully Connected layer predicts whether the image contains a cat, dog, horse, or bird.
+
+16. Complete CNN Pipeline
+Input Image
+      ↓
+Convolution
+      ↓
+Feature Map
+      ↓
+ReLU
+      ↓
+Pooling
+      ↓
+Repeat Multiple Times
+      ↓
+Flatten
+      ↓
+Fully Connected Layer
+      ↓
+Output Prediction
+17. Advantages of CNN
+
+CNN automatically learns image features without manual feature engineering. It requires fewer parameters than Fully Connected Networks, is computationally efficient, reduces overfitting, and achieves excellent performance in image classification, object detection, and recognition tasks.
+
+18. Applications of CNN
+
+CNNs are widely used in image classification, face recognition, self-driving cars, medical image diagnosis, handwritten text recognition (OCR), defect detection in manufacturing, satellite image analysis, and biometric authentication
