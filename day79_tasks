@@ -1,0 +1,109 @@
+Day 79 – Image Preprocessing
+
+Topics: Image Preprocessing, Normalization, Data Augmentation, torchvision
+
+1. Image Preprocessing
+
+Image preprocessing is the process of preparing raw images before they are given to a deep learning model. Images collected from cameras or the internet are usually not suitable for direct training because they may have different sizes, lighting conditions, noise levels, or orientations. If these images are fed directly into a CNN, the model may learn incorrect patterns and produce poor results. Therefore, preprocessing ensures that all images are in a consistent format, allowing the model to learn meaningful features efficiently. Common preprocessing operations include resizing, converting images into tensors, normalization, and data augmentation.
+
+Example: Suppose a dataset contains images of sizes 100×100, 300×400, and 512×512. Since a CNN requires all images to have the same dimensions, they are resized to a common size such as 224×224 before training.
+
+2. Image Resizing
+
+Image resizing is one of the first preprocessing steps performed before training a CNN. Since deep learning models expect every input image to have the same dimensions, resizing converts all images to a fixed width and height. This makes it possible to create batches of images during training and ensures that every image passes through the same network architecture. Choosing an appropriate image size is important because very small images may lose important details, while very large images increase computational cost.
+
+Example: An image of size 600×800 can be resized to 224×224 before being fed into a CNN such as ResNet or VGG.
+
+3. Converting Images into Tensors
+
+Deep learning models cannot process image files such as .jpg or .png directly. Therefore, images must be converted into tensors, which are multi-dimensional arrays containing numerical pixel values. In PyTorch, an image is represented in the format Channels × Height × Width (C × H × W) instead of Height × Width × Channels (H × W × C). This format is optimized for GPU computations and is used throughout PyTorch.
+
+Example: A color image with a shape of 224 × 224 × 3 becomes 3 × 224 × 224 after being converted into a tensor.
+
+4. Normalization
+
+Normalization is the process of scaling pixel values so that they fall within a smaller and more consistent range. Normally, image pixel values range from 0 to 255. Large input values can slow down learning and make training unstable. By normalizing these values, the neural network learns more efficiently, gradients become more stable, and the optimization process converges faster. Many pretrained models use specific mean and standard deviation values for normalization because they were originally trained on standardized datasets such as ImageNet.
+
+Formula:
+
+Normalized Value=
+255
+Pixel Value
+	​
+
+
+Example:
+
+Original Pixel Values
+
+0   128   255
+
+After Normalization
+
+0.0   0.50   1.0
+
+The CNN now works with values between 0 and 1, making training more stable.
+
+5. Data Augmentation
+
+Data augmentation is a technique used to artificially increase the size and diversity of a training dataset by applying random transformations to existing images. Instead of collecting thousands of new images, we create new variations of the existing ones. These transformations include rotation, horizontal flipping, cropping, zooming, brightness adjustment, and color changes. Data augmentation helps reduce overfitting because the model learns to recognize objects under different conditions rather than memorizing specific images.
+
+Example: If the original training image contains a cat, rotating the image by 15° or flipping it horizontally still produces a valid cat image. The CNN learns that the object remains the same even though its appearance has changed slightly.
+
+6. Why Data Augmentation is Important
+
+Without data augmentation, a CNN may memorize the training images instead of learning the actual features of the object. This leads to poor performance on unseen images. By exposing the model to many variations of the same object, augmentation improves the model's ability to generalize to real-world scenarios where images may have different lighting conditions, camera angles, or backgrounds.
+
+Example: A self-driving car trained only on sunny-day images may fail at night. By augmenting images with different brightness levels, shadows, and weather conditions, the model becomes more reliable.
+
+7. torchvision
+
+torchvision is an official PyTorch library developed specifically for Computer Vision tasks. It provides ready-to-use datasets, image preprocessing functions, pretrained CNN models, and utilities for loading and transforming images. Instead of writing preprocessing code manually, developers use torchvision to simplify image loading and preprocessing. It is one of the most commonly used libraries in PyTorch-based Computer Vision projects.
+
+Example: Using torchvision.transforms, we can resize an image, convert it into a tensor, and normalize it using just a few lines of code.
+
+8. transforms.Compose()
+
+Compose() combines multiple preprocessing operations into a single pipeline. Instead of applying transformations one by one, Compose executes them sequentially in the specified order. This makes preprocessing more organized, reusable, and easier to maintain.
+
+Example:
+
+transform = transforms.Compose([
+    transforms.Resize((224,224)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485,0.456,0.406],
+        std=[0.229,0.224,0.225]
+    )
+])
+
+Here, the image is first resized, then converted into a tensor, and finally normalized before being passed to the CNN.
+
+9. Complete Image Preprocessing Pipeline
+
+The complete preprocessing pipeline prepares raw images step by step before training a CNN. Each step ensures that the input data is clean, standardized, and suitable for learning. Without preprocessing, even a powerful CNN architecture may fail to achieve good performance.
+
+Raw Image
+     │
+     ▼
+Resize
+     │
+     ▼
+Convert to Tensor
+     │
+     ▼
+Normalize
+     │
+     ▼
+Data Augmentation (Training Only)
+     │
+     ▼
+CNN Model
+⭐ Key Points to Remember
+Image Preprocessing prepares raw images before training.
+Resize ensures every image has the same dimensions.
+Tensor Conversion changes images into numerical arrays that PyTorch can process.
+Normalization scales pixel values for faster and more stable learning.
+Data Augmentation creates new image variations to reduce overfitting and improve generalization.
+torchvision provides datasets, preprocessing tools, and pretrained CNN models.
+transforms.Compose() combines multiple preprocessing operations into a single pipeline.
